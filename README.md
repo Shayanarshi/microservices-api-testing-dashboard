@@ -1,62 +1,58 @@
-# MicroTest – Microservices Test Dashboard
+# MicroTest – Microservices API Testing Dashboard
 
-MicroTest is a web-based dashboard built with React that helps developers interact with and test REST APIs in a Spring Boot microservices application through a centralized API Gateway.
-
-It provides a simple interface for sending requests, entering parameters, viewing JSON responses, and checking HTTP status codes without manually preparing every request in a separate API client.
+MicroTest is a React-based dashboard for testing REST APIs in a Spring Boot microservices application through Spring Cloud Gateway. It provides a centralized interface to execute API requests, inspect JSON responses, view HTTP status codes, and measure response times.
 
 ## Features
 
-- **API Testing Dashboard:** Test configured microservice endpoints from one interface.
-- **Multiple HTTP Operations:** Supports GET and POST requests.
-- **Input Forms:** Enter request parameters and customer details through forms.
-- **Response Viewer:** View formatted JSON responses and response headers.
-- **HTTP Status and Timing:** Inspect status codes and request duration.
-- **Test Statistics:** Track passed, failed, and executed requests during the current session.
+- **API Testing:** Test configured microservice endpoints from one dashboard.
+- **HTTP Methods:** Supports GET and POST requests.
+- **Request Forms:** Enter parameters and customer details.
+- **Response Viewer:** Inspect formatted JSON responses and response headers.
+- **Status and Timing:** View HTTP status codes and request duration.
+- **Test Statistics:** Track executed, passed, and failed requests during the current session.
 - **Service Monitoring:** Check configured service endpoints through the Gateway.
-- **Responsive UI:** Dashboard layout adapts to different screen sizes.
+- **Responsive UI:** Works across different screen sizes.
 
 ## Tech Stack
 
-| Category | Technology |
+| Category | Technologies |
 |---|---|
-| Frontend | React |
+| Frontend | React, JavaScript |
 | Build Tool | Vite |
 | Styling | Tailwind CSS |
-| Backend Integration | REST APIs |
-| API Routing | Spring Cloud Gateway |
-| Backend Services | Spring Boot |
-| Development Tools | npm, Git, GitHub |
+| Backend | Spring Boot, REST APIs |
+| API Gateway | Spring Cloud Gateway |
+| Tools | npm, Git, GitHub, Postman |
 
 ## Architecture
 
 ```text
-                 User
-                   |
-                   v
-        React MicroTest Dashboard
-                   |
-                   v
-          Spring Cloud Gateway
-             localhost:8080
-                   |
-        +----------+----------+
-        |          |          |
-        v          v          v
-     PlanApp    FriendApp  CustomerApp
-        |          |          |
-        +----------+----------+
-                   |
-          JSON API Responses
-                   |
-                   v
-        MicroTest Response Viewer
+              User
+                |
+                v
+       React MicroTest Dashboard
+                |
+                v
+       Spring Cloud Gateway
+          localhost:8080
+                |
+        +-------+-------+
+        |       |       |
+        v       v       v
+     PlanApp FriendApp CustomerApp
+        |       |       |
+        +-------+-------+
+                |
+                v
+          JSON Responses
+                |
+                v
+       Dashboard Response Viewer
 ```
 
-The frontend sends requests to the Gateway using configured API paths. The Gateway routes requests to the appropriate Spring Boot service, which returns a response for the dashboard to display.
+The dashboard sends requests through Spring Cloud Gateway. The Gateway routes each request to the appropriate Spring Boot microservice, and the response is displayed in the dashboard.
 
-## API Operations
-
-The dashboard currently includes these configured operations:
+## Configured API Operations
 
 | Service | Operation | Method |
 |---|---|---|
@@ -68,26 +64,25 @@ The dashboard currently includes these configured operations:
 | Customer Service | Customer login | POST |
 | Customer Service | View customer profile | GET |
 
-The endpoints depend on the corresponding backend controllers and Gateway routes being available.
+These operations require the corresponding backend endpoints and Gateway routes to be configured correctly.
 
 ## Prerequisites
 
 Install the following before running the project:
 
 - Node.js and npm
+- Git
 - Java and Maven for the backend services
-- The Spring Boot microservices and Spring Cloud Gateway configured and running
+- The required Spring Boot microservices and Spring Cloud Gateway
 
-## Run Locally
+## Getting Started
 
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd microservices-ui
+git clone https://github.com/Shayanarshi/microservices-api-testing-dashboard.git
+cd microservices-api-testing-dashboard
 ```
-
-Replace `YOUR_GITHUB_REPOSITORY_URL` with your actual repository URL.
 
 ### 2. Install dependencies
 
@@ -97,13 +92,15 @@ npm install
 
 ### 3. Start the backend
 
-Start the required Spring Boot services and the API Gateway. The Vite development proxy is configured to forward `/api` requests to:
+Start the required Spring Boot microservices and Spring Cloud Gateway.
+
+By default, the Vite development proxy forwards `/api` requests to:
 
 ```text
 http://localhost:8080
 ```
 
-Make sure the Gateway is running on port `8080`, or update `vite.config.js` to match your configuration.
+Ensure the Gateway is running on port `8080`, or update the target in `vite.config.js` to match your configuration.
 
 ### 4. Start the frontend
 
@@ -111,7 +108,7 @@ Make sure the Gateway is running on port `8080`, or update `vite.config.js` to m
 npm run dev
 ```
 
-Open the local URL printed by Vite in your terminal, usually:
+Open the local URL displayed in the terminal, usually:
 
 ```text
 http://localhost:5173
@@ -123,7 +120,7 @@ http://localhost:5173
 npm run build
 ```
 
-To check the production build locally:
+To preview the production build locally:
 
 ```bash
 npm run preview
@@ -131,9 +128,11 @@ npm run preview
 
 ## Configuration
 
-The development proxy is defined in `vite.config.js`.
+The development proxy is configured in `vite.config.js`.
 
-```js
+Example:
+
+```javascript
 server: {
   proxy: {
     "/api": {
@@ -144,21 +143,22 @@ server: {
 }
 ```
 
-This proxy is for local development. A deployed frontend needs a reachable backend URL and appropriate production configuration. Do not expose sensitive credentials in frontend code.
+This proxy is intended for local development. For production deployment, configure a reachable backend URL and appropriate CORS settings. Do not expose sensitive credentials in frontend code.
 
 ## Important Notes
 
-- The backend services and Gateway must be running for API requests to work.
-- Dashboard test statistics are maintained in the current frontend session and are not a persistent test history.
-- A successful frontend build does not confirm that the backend APIs are reachable.
-- Only configure and document endpoints that actually exist in your backend services.
+- The backend services and Gateway must be running for API requests to succeed.
+- API paths and request payloads must match the actual backend controllers.
+- Test statistics are maintained in the current frontend session and are not persistent test history.
+- A successful frontend build does not guarantee that the backend APIs are reachable.
+- GitHub Pages can host the frontend, but it cannot make a local Gateway accessible to public users.
 
 ## Future Improvements
 
 - Automated API test suites
-- Persistent test history and reports
+- Persistent test history and downloadable reports
 - Authentication and authorization support
-- More detailed service health checks
+- Detailed service health checks
 - Environment-based API configuration
 - CI/CD integration
 
@@ -167,7 +167,5 @@ This proxy is for local development. A deployed frontend needs a reachable backe
 **Shayan Arshi**
 
 Java Full Stack Developer | React | Java | Spring Boot | REST APIs
-
----
 
 This project was developed to practice frontend integration with Spring Boot microservices and API Gateway-based routing.
